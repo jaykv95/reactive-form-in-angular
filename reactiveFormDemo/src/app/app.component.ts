@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {FormControl,FormGroup,FormBuilder} from '@angular/forms';
-import { Validators , FormArray } from  '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,36 +9,38 @@ import { Validators , FormArray } from  '@angular/forms';
 })
 export class AppComponent {
   title = 'reactiveFormDemo';
-profileForm=this.fb.group({
-  firstName:['',Validators.required],
-  lastName:[''],
-  address:this.fb.group({
-    street:[''],
-    city:[''],
-    state:[''],
-    zip:['']
-  }),
-  aliases:this.fb.array([this.fb.control('')])
-})
+  profileForm = this.fb.group({
+    firstName: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+    lastName: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+    address: this.fb.group({
+      street: [''],
+      city: [''],
+      state: [''],
+      zip: ['']
+    }),
+    aliases: this.fb.array([this.fb.control('')])
+  })
   constructor(
-    private fb:FormBuilder
-    ){}
+    private fb: FormBuilder
+  ) { }
 
-onSubmit(){
-  console.warn(this.profileForm.value)
-}
-updateProfile() {
-  this.profileForm.patchValue({
-    firstName: 'Nancy',
-    address: {
-      street: '123 Drew Street'
-    }
-  });
-}
-get aliases(){
-  return this.profileForm.get('aliases') as FormArray;
-}
-addAlias(){
-this.aliases.push(this.fb.control(''))
-}
+  onSubmit() {
+    console.warn(this.profileForm.value)
+  }
+  updateProfile() {
+    this.profileForm.patchValue({
+      firstName: 'Nancy',
+      address: {
+        street: '123 Drew Street'
+      }
+    });
+  }
+  get aliases() {
+    return this.profileForm.get('aliases') as FormArray;
+  }
+  addAlias() {
+    this.aliases.push(this.fb.control(''))
+  }
+  get lastName() { return this.profileForm.get('lastName'); }
+  get firstName() { return this.profileForm.get('firstName'); }
 }

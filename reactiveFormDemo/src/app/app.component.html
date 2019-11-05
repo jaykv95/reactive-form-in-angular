@@ -1,48 +1,64 @@
-<form [formGroup]='profileForm' (ngSubmit)='onSubmit()'>
+<form align='center' [formGroup]='profileForm' (ngSubmit)='onSubmit()'>
+  <h1>SignUp Form</h1>
   <label>
-First Name:
-<input type='text' formControlName='firstName'>
+    First Name:
+    <input class='form-control' id='firstName' type='text' formControlName='firstName' required minlength="4">
+    <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class='alert alert-danger'>
+      <div *ngIf=firstName.errors.required>
+        Name is Required
+      </div>
+      <div *ngIf='firstName.errors.minlength'>
+        Name must be four charecter long
+      </div>
+    </div>
   </label>
-<label>
-  Last Name:
-  <input type='text' formControlName='lastName'>
-</label>
-<div formGroupName='address'>
-  <h3>Address</h3>
   <label>
-    street:
-    <input type='text' formControlName='street'>
+    Last Name:
+    <input class='form-control' type='text' formControlName='lastName'>
+    <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class='alert alert-danger'>
+      <div *ngIf=lastName.errors.required>
+        Name is Required
+      </div>
+      <div *ngIf='lastName.errors.minlength'>
+        Name must be four charecter long
+      </div>
+    </div>
   </label>
-  <label>city:
-    <input type='text' formControlName='city'>
-  </label>
-  <label>state:
-    <input type='text' formControlName='state'>
-  </label>
-  <label>zip:
-    <input type='text' formControlName='zip'>
-  </label>
+  <div formGroupName='address'>
+    <h3>Address</h3>
+    <label>
+      street:
+      <input class='form-control' type='text' formControlName='street'>
+    </label>
+    <label>city:
+      <input class='form-control' type='text' formControlName='city'>
+    </label>
+    <label>state:
+      <input class='form-control' type='text' formControlName='state'>
+    </label>
+    <label>zip:
+      <input class='form-control' type='text' formControlName='zip'>
+    </label>
   </div>
   <div formArrayName='aliases'>
     <h3>Aliases</h3>
-    <button (click)='addAlias()'>Add Alias</button>
+    <button class="btn btn-primary" (click)='addAlias()'>Add Alias</button>
     <div *ngFor='let address of aliases.controls;let i=index'>
       <label>
         Alias:
-<input type='text' [formControlName]='i'>
+        <input type='text' class='form-control' [formControlName]='i'>
       </label>
     </div>
   </div>
-<button type='submit' [disabled] ='!profileForm.valid'>Submit</button>
-<p>
-  Form Value: {{ profileForm.value }}
+  <button type='submit' class="btn btn-primary" [disabled]='!profileForm.valid'>Submit</button>
+  <p>
+    Form Value: {{ profileForm.value }}
   </p>
   <p>
-      Form Status: {{ profileForm.status }}
-    </p>
-<p>
-    <button (click)="updateProfile()">Update Profile</button>
+    Form Status: {{ profileForm.status }}
   </p>
-  
-</form>
+  <p>
+    <button class="btn btn-primary" (click)="updateProfile()">Update Profile</button>
+  </p>
 
+</form>
